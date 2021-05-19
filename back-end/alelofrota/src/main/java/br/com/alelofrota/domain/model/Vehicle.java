@@ -48,5 +48,9 @@ public class Vehicle implements Serializable  {
 	public Vehicle() {
 		
 	}
+
+	public Vehicle(long id) {
+		this.id = id;
+	}
 	
 }

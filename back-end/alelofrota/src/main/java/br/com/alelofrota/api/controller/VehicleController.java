@@ -67,11 +67,11 @@ public class VehicleController {
 	@GetMapping(value = "/{id}")
 	@ApiOperation(value = "Return vehicle by id")
 	public ResponseEntity<VehicleDTO> findById(@PathVariable Long id) {
-		VehicleDTO v = service.findById(id);
-		if (v == null) {
-			return ResponseEntity.notFound().build();
+		VehicleDTO vDTO = service.findById(id);
+		if (vDTO == null) {
+			throw new NegocioException("Vehicle not found!");
 		}
-		return ResponseEntity.ok(v);
+		return ResponseEntity.ok(vDTO);
 	}
 
 	// http://localhost:8080/vehicle
@@ -90,10 +90,10 @@ public class VehicleController {
 	// http://localhost:8080/vehicle/id
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Update Vehicle")
-	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody Vehicle v) {
-		VehicleDTO vDTO = service.findById(v.getId());
+	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody Vehicle v, @PathVariable Long id) {
+		VehicleDTO vDTO = service.findById(id);
 		if (vDTO == null) {
-			return ResponseEntity.notFound().build();
+			throw new NegocioException("Vehicle not found!");
 		}
 		//Verify if update on plate
 		if (vDTO.getPlate().equals(v.getPlate())) {
@@ -104,13 +104,15 @@ public class VehicleController {
 		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
 	}
 
+	// http://localhost:8080/vehicle/id
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete Vehicle")
-	public ResponseEntity<Void> delete(@Valid @RequestBody Vehicle v) {
-		VehicleDTO vDTO = service.findById(v.getId());
+	public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
+		VehicleDTO vDTO = service.findById(id);
 		if (vDTO == null) {
-			return ResponseEntity.notFound().build();
+			throw new NegocioException("Vehicle not found!");
 		}
+		service.delete(new Vehicle(id));
 		return ResponseEntity.noContent().build();
 	}
 
