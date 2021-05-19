@@ -33,5 +33,20 @@ public class Vehicle implements Serializable  {
 	private String color;
 	
 	private boolean status;
+
+	public Vehicle(@NotBlank(message = "O campo plate não pode ser vazio.") String plate,
+			@NotBlank(message = "O campo model não pode ser vazio.") String model,
+			@NotBlank(message = "O campo manufacturer não pode ser vazio.") String manufacturer,
+			@NotBlank(message = "O campo color não pode ser vazio.") String color, boolean status) {
+		this.plate = plate;
+		this.model = model;
+		this.manufacturer = manufacturer;
+		this.color = color;
+		this.status = status;
+	}
+
+	public Vehicle() {
+		
+	}
 	
 }

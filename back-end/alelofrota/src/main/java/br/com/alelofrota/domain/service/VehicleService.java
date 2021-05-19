@@ -52,5 +52,10 @@ public class VehicleService {
 	public void delete(Vehicle v) {
 		repository.delete(v);
 	}
+	
+//	dbinit
+	public void saveAll(List<Vehicle> list) {
+		repository.saveAll(list);
+	}
 
 }
