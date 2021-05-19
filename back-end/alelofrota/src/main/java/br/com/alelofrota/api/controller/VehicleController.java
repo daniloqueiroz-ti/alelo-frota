@@ -45,21 +45,19 @@ public class VehicleController {
 	}
 
 	// http://localhost:8080/vehicle?filter=ABC4852
+	// http://localhost:8080/vehicle?filter=true
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/{filter}")
 	@ApiOperation(value = "Return vehicles by plate")
 	public ResponseEntity<List<VehicleDTO>> findByPlate(@PathVariable String filter) {
-		List<VehicleDTO> list = service.findByPlate(filter);
-		return ResponseEntity.ok(list);
-	}
-
-	// http://localhost:8080/vehicle?filter=true
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = "/{filter}")
-	@ApiOperation(value = "Return vehicles by status")
-	public ResponseEntity<List<VehicleDTO>> findByStatus(@PathVariable boolean filter) {
-		List<VehicleDTO> list = service.findByStatus(filter);
-		return ResponseEntity.ok(list);
+		try {
+			boolean parm = Boolean.parseBoolean(filter);
+			List<VehicleDTO> list = service.findByStatus(parm);
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			List<VehicleDTO> list = service.findByPlate(filter);
+			return ResponseEntity.ok(list);
+		}
 	}
 
 	// http://localhost:8080/vehicle/id
