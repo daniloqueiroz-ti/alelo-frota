@@ -27,25 +27,25 @@ public class VehicleService {
 
 //	/vehicle?filter=ABC4852 Busca veículo pela placa
 	@Transactional(readOnly = true)
-	public List<Vehicle> findByPlate(String plate) {
+	public List<VehicleDTO> findByPlate(String plate) {
 		return repository.findByPlate(plate);
 	}
 
 //	/vehicle?filter=true Lista veículos pelo status
 	@Transactional(readOnly = true)
-	public List<Vehicle> findByStatus(boolean status) {
+	public List<VehicleDTO> findByStatus(boolean status) {
 		return repository.findByStatus(status);
 	}
 	
 //	/vehicle/:id Busca um veículo específico
 	@Transactional(readOnly = true)
-	public Vehicle findById(Long id) {
-		return repository.findById(id).orElse(null);
+	public VehicleDTO findById(Long id) {
+		return new VehicleDTO(repository.findById(id).orElse(null));
 	}
 	
 //	/vehicle Cria / atualizar um novo veículo
-	public void save(Vehicle v) {
-		repository.save(v);
+	public VehicleDTO save(Vehicle v) {
+		return new VehicleDTO(repository.save(v));
 	}
 	
 //	/vehicle/:id Remove um veículo
