@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.alelofrota.domain.dto.VehicleDTO;
 import br.com.alelofrota.domain.model.Vehicle;
 import br.com.alelofrota.domain.service.VehicleService;
+import br.com.alelofrota.domain.utilities.Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -41,10 +42,14 @@ public class VehicleController {
 	@GetMapping
 	@ApiOperation(value = "Return all vehicles in pages")
 	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, Pageable pageable) {
+
 		if (filter == null) {
 			Page<VehicleDTO> list = service.findAll(pageable);
 			return ResponseEntity.ok(list);
-		} else if (filter.toLowerCase().equals("active")) {
+		}
+		String str = Util.removeSpecialCharacters(filter);
+		filter = str;
+		if (filter.toLowerCase().equals("active")) {
 			Page<VehicleDTO> list = service.findByStatus(true, pageable);
 			return ResponseEntity.ok(list);
 		} else if (filter.toLowerCase().equals("inactive")) {
@@ -62,16 +67,18 @@ public class VehicleController {
 	@ApiOperation(value = "Return vehicle by id")
 	public ResponseEntity<VehicleDTO> findById(@PathVariable Long id) {
 		VehicleDTO v = service.findById(id);
-		if (v != null) {
-			return ResponseEntity.ok(v);
+		if (v == null) {
+			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(v);
 	}
 
 	// http://localhost:8080/vehicle
 	@PostMapping
 	@ApiOperation(value = "Save Vehicle")
 	public ResponseEntity<VehicleDTO> save(@Valid @RequestBody Vehicle v) {
+		String str = Util.removeSpecialCharacters(v.getPlate());
+		v.setPlate(str.toUpperCase());
 		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
 	}
 
@@ -83,6 +90,8 @@ public class VehicleController {
 		if (vDTO == null) {
 			return ResponseEntity.notFound().build();
 		}
+		String str = Util.removeSpecialCharacters(v.getPlate());
+		v.setPlate(str.toUpperCase());
 		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
 	}
 
