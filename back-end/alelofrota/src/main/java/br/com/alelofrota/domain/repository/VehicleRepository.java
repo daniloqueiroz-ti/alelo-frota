@@ -13,5 +13,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 	Page<Vehicle> findByPlateContains(String plate, Pageable pageable);
 	
 	Page<Vehicle> findByStatus(boolean status, Pageable pageable);
-
+	
+	//Verify isExist
+	boolean existsVehicleByPlate(String plate);
+	
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alelofrota.domain.dto.VehicleDTO;
+import br.com.alelofrota.domain.exception.NegocioException;
 import br.com.alelofrota.domain.model.Vehicle;
 import br.com.alelofrota.domain.service.VehicleService;
 import br.com.alelofrota.domain.utilities.Util;
@@ -56,7 +57,7 @@ public class VehicleController {
 			Page<VehicleDTO> list = service.findByStatus(false, pageable);
 			return ResponseEntity.ok(list);
 		} else {
-			Page<VehicleDTO> list = service.findByPlate(filter, pageable);
+			Page<VehicleDTO> list = service.findByPlate(filter.toUpperCase(), pageable);
 			return ResponseEntity.ok(list);
 		}
 	}
@@ -79,6 +80,10 @@ public class VehicleController {
 	public ResponseEntity<VehicleDTO> save(@Valid @RequestBody Vehicle v) {
 		String str = Util.removeSpecialCharacters(v.getPlate());
 		v.setPlate(str.toUpperCase());
+		//Verify isExist
+		if (service.existsVehicleByPlate(v.getPlate())) {
+			throw new NegocioException("This plate already exist!");
+		}
 		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
 	}
 
@@ -89,6 +94,10 @@ public class VehicleController {
 		VehicleDTO vDTO = service.findById(v.getId());
 		if (vDTO == null) {
 			return ResponseEntity.notFound().build();
+		}
+		//Verify if update on plate
+		if (vDTO.getPlate().equals(v.getPlate())) {
+			throw new NegocioException("It isn't allowed to change a plate!");
 		}
 		String str = Util.removeSpecialCharacters(v.getPlate());
 		v.setPlate(str.toUpperCase());
