@@ -27,14 +27,16 @@ public class VehicleService {
 
 //	/vehicle?filter=ABC4852 Busca veículo pela placa
 	@Transactional(readOnly = true)
-	public List<VehicleDTO> findByPlate(String plate) {
-		return repository.findByPlate(plate);
+	public Page<VehicleDTO> findByPlate(String plate, Pageable pageable) {
+		Page<Vehicle> result =  repository.findByPlateContains(plate, pageable);
+		return result.map(v -> new VehicleDTO(v));
 	}
 
 //	/vehicle?filter=true Lista veículos pelo status
 	@Transactional(readOnly = true)
-	public List<VehicleDTO> findByStatus(boolean status) {
-		return repository.findByStatus(status);
+	public Page<VehicleDTO> findByStatus(boolean status, Pageable pageable) {
+		Page<Vehicle> result =  repository.findByStatus(status, pageable);
+		return result.map(v -> new VehicleDTO(v));
 	}
 	
 //	/vehicle/:id Busca um veículo específico

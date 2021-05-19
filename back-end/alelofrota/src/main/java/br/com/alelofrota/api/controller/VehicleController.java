@@ -1,7 +1,5 @@
 package br.com.alelofrota.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,26 +35,23 @@ public class VehicleController {
 	private VehicleService service;
 
 	// http://localhost:8080/vehicle?page=1&size=10&sort=status,desc
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping
-	@ApiOperation(value = "Return all vehicles in pages")
-	public ResponseEntity<Page<VehicleDTO>> findaAll(Pageable pageable) {
-		Page<VehicleDTO> list = service.findAll(pageable);
-		return ResponseEntity.ok(list);
-	}
-
 	// http://localhost:8080/vehicle?filter=ABC4852
 	// http://localhost:8080/vehicle?filter=true
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = "/{filter}")
-	@ApiOperation(value = "Return vehicles by plate")
-	public ResponseEntity<List<VehicleDTO>> findByPlate(@PathVariable String filter) {
-		try {
-			boolean parm = Boolean.parseBoolean(filter);
-			List<VehicleDTO> list = service.findByStatus(parm);
+	@GetMapping
+	@ApiOperation(value = "Return all vehicles in pages")
+	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, Pageable pageable) {
+		if (filter == null) {
+			Page<VehicleDTO> list = service.findAll(pageable);
 			return ResponseEntity.ok(list);
-		} catch (Exception e) {
-			List<VehicleDTO> list = service.findByPlate(filter);
+		} else if (filter.toLowerCase().equals("active")) {
+			Page<VehicleDTO> list = service.findByStatus(true, pageable);
+			return ResponseEntity.ok(list);
+		} else if (filter.toLowerCase().equals("inactive")) {
+			Page<VehicleDTO> list = service.findByStatus(false, pageable);
+			return ResponseEntity.ok(list);
+		} else {
+			Page<VehicleDTO> list = service.findByPlate(filter, pageable);
 			return ResponseEntity.ok(list);
 		}
 	}
