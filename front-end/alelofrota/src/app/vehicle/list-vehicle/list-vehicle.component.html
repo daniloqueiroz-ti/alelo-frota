@@ -1,1 +1,47 @@
-<p>list-vehicle works!</p>
+<nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <input class="form-control" type="search" placeholder="plate search">
+            </div>
+            <div class="col-1">
+                <button class="btn" type="submit"><img src="../../../assets/icon/search-solid.svg" />Search</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary" type="submit">Add Vehicle +</button>
+            </div>
+        </div>
+
+
+        <table class="table table-hover table-borderless table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Plate</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Manufacturer</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let v of lista$ | async">
+                    <td>{{v.id}}</td>
+                    <td>{{v.plate}}</td>
+                    <td>{{v.model}}</td>
+                    <td>{{v.manufacturer}}</td>
+                    <td>{{v.status ? 'Active' : 'Inactive'}}</td>
+                    <td class="text-right">
+                        <button mat-raised-button color="accent" class="mr-3" (click)="edit(v)">
+                        <span class="material-icons mr-2 pb-1" style="font-size: 15px;">
+                        edit
+                        </span>Editar</button>
+                        <button mat-raised-button style="background-color: #e63946; color: white;" (click)="del(v)">
+                        <span class="material-icons mr-2 pb-1" style="font-size: 16px;">
+                        delete
+                        </span>Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</nav>
