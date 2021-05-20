@@ -1,8 +1,8 @@
 import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
-import { VehicleService } from './../service/categoria.service';
+import { VehicleService } from '../service/vehicle-service';
 import { Vehicle } from '../model/vehicle';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -15,11 +15,13 @@ export class ListVehicleComponent implements OnInit {
   public lista$: Observable<Vehicle[]>;
   public msgError: string;
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService) { 
+    this.msgError = "";
+    this.lista$ = Observable<Vehicle[]>;
+  }
 
   ngOnInit(): void {
-    this.msgError = null;
-    this.getLista();
+    //this.lista$ = this.getLista();
   }
 
   // Chama o serviço para obter todos
@@ -30,7 +32,7 @@ export class ListVehicleComponent implements OnInit {
           this.msgError = error;
           console.log("Listar com erro : " + error);
           // tslint:disable-next-line: deprecation
-          return empty();
+          return EMPTY;
         })
       );
   }
@@ -48,12 +50,12 @@ export class ListVehicleComponent implements OnInit {
         });
     }
   
-    public edit(vehicle: Vehicle): void {
+/*    public edit(vehicle: Vehicle): void {
       this.dialog.open(UpdateVehicleComponent, {
         width: '50%',
         data: vehicle
       });
-      this.dialog.afterAllClosed.subscribe((sucesso) => {
+      this.dialog.afterAllClosed.subscribe((sucesso: any) => {
         console.log(sucesso);
         this.getLista();
       },
@@ -61,6 +63,6 @@ export class ListVehicleComponent implements OnInit {
           this.msgError = error;
           console.log("Error no edit : " + error);
         });
-    }
+    }*/
 
 }
