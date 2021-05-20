@@ -1,3 +1,4 @@
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { ReportsComponent } from './reports/reports.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -7,6 +8,10 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: "",
+    component: SidebarComponent
+  },
+  {
+    path: "dashboard",
     component: DashboardComponent
   },
   {

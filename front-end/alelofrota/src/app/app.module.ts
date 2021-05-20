@@ -8,6 +8,7 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ListVehicleComponent } from './vehicle/list-vehicle/list-vehicle.component';
 import { UpdateVehicleComponent } from './vehicle/update-vehicle/update-vehicle.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { UpdateVehicleComponent } from './vehicle/update-vehicle/update-vehicle.
     VehicleComponent,
     ReportsComponent,
     ListVehicleComponent,
-    UpdateVehicleComponent
+    UpdateVehicleComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

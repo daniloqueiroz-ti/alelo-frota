@@ -1,0 +1,46 @@
+.navegacao-site {
+    height: 100%;
+    width: 25%;
+    text-align: center;
+    float: left;
+}
+
+.pages {
+    background: #EDEDED;
+    height: 100%;
+    width: 75%;
+    text-align: center;
+    float: right;
+    border-radius: 30px;
+}
+
+.titulo {
+    font-weight: bold;
+    font-size: 42px;
+}
+
+.menu {
+    padding-top: 30px;
+}
+
+li {
+    width: 70%;
+    padding: 20px;
+    list-style: none;
+}
+
+a {
+    font-size: 24px;
+    color: inherit;
+    text-decoration: none;
+}
+
+li:hover {
+    background: #EDEDED;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    padding-right: 20px;
+}
