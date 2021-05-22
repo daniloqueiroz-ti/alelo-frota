@@ -14,7 +14,8 @@ import { tap } from 'rxjs/operators';
 })
 export class ListVehicleComponent implements OnInit {
 
-  displayedColumns = ['Id', 'Plate', 'Model', 'Manufacturer', 'Status'];
+  displayedColumns = ['Id', 'Plate', 'Model', 'Manufacturer', 'Color', 'Status'];
+
   todoDatasource: TodoDataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
  
