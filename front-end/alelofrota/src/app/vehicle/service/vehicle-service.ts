@@ -23,7 +23,7 @@ export class VehicleService {
   getLista(): Observable<Vehicle[]> {
     return this.httpClient.get<Vehicle[]>(this.url)
       .pipe(
-        retry(2),
+        retry(1),
         catchError(this.handleError));
   }
 

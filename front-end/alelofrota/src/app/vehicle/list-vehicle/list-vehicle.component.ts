@@ -12,29 +12,26 @@ import { catchError } from 'rxjs/operators';
 })
 export class ListVehicleComponent implements OnInit {
 
-  public lista$: Observable<Vehicle[]>;
-  public msgError: string;
+  public lista$: Vehicle[] = [];
+  public msgError: string = "";
 
   constructor(private vehicleService: VehicleService) { 
-    this.msgError = "";
-    this.lista$ = Observable<Vehicle[]>;
   }
 
   ngOnInit(): void {
-    //this.lista$ = this.getLista();
+    this.getLista();
   }
 
   // Chama o serviço para obter todos
   private getLista() {
-    this.lista$ = this.vehicleService.getLista()
-      .pipe(
-        catchError(error => {
-          this.msgError = error;
-          console.log("Listar com erro : " + error);
-          // tslint:disable-next-line: deprecation
-          return EMPTY;
-        })
-      );
+    setTimeout(() => {
+    this.vehicleService.getLista()
+      .subscribe(
+        result => {
+          this.lista$ = result;
+        }
+      )
+    }, 400)
   }
 
     // deletar
