@@ -1,3 +1,4 @@
+import { VehiclePage } from './../model/vehicle';
 import { Vehicle } from '../model/vehicle';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -20,13 +21,11 @@ export class VehicleService {
   };
 
   // Obtem todos
-  getLista(): Observable<Vehicle[]> {
-    return this.httpClient.get<Vehicle[]>(this.url)
-      .pipe(
-        retry(1),
-        catchError(this.handleError));
+  getLista(request: any) {
+    const params = request;
+    return this.httpClient.get<VehiclePage[]>(this.url, { params });
   }
-
+/*
   // Obtem um pelo id
   getVehicleById(id: number): Observable<Vehicle> {
     return this.httpClient.get<Vehicle>(this.url + '/' + id)
@@ -76,5 +75,5 @@ export class VehicleService {
     }
     console.log('HandleError errorMessage: ' + errorMessage);
     return throwError(errorMessage);
-  }
+  }*/
 }

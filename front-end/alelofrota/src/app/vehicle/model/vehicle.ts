@@ -1,3 +1,7 @@
+export interface VehiclePage {
+    content: Vehicle[];
+    totalElements: number;    
+}
 
 export interface Vehicle {
     id: number;

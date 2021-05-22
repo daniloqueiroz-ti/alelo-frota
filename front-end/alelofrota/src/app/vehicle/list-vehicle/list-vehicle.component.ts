@@ -1,9 +1,11 @@
-import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
+import { TodoDataSource } from './../datasource/vehicle.datasource';
+import { VehiclePage } from './../model/vehicle';
 import { VehicleService } from '../service/vehicle-service';
 import { Vehicle } from '../model/vehicle';
-import { Component, OnInit } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-list-vehicle',
@@ -12,29 +14,39 @@ import { catchError } from 'rxjs/operators';
 })
 export class ListVehicleComponent implements OnInit {
 
-  public lista$: Vehicle[] = [];
-  public msgError: string = "";
-
+  displayedColumns = ['Id', 'Plate', 'Model', 'Manufacturer', 'Status'];
+  todoDatasource: TodoDataSource;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+ 
   constructor(private vehicleService: VehicleService) { 
   }
 
-  ngOnInit(): void {
-    this.getLista();
+  ngOnInit() {
+    this.todoDatasource = new TodoDataSource(this.vehicleService);
+    this.todoDatasource.loadTodos();
   }
-
-  // Chama o serviço para obter todos
-  private getLista() {
-    setTimeout(() => {
-    this.vehicleService.getLista()
-      .subscribe(
-        result => {
-          this.lista$ = result;
-        }
+ 
+  ngAfterViewInit() {
+    this.todoDatasource.counter$
+      .pipe(
+        tap((count) => {
+          this.paginator.length = count;
+        })
       )
-    }, 400)
+      .subscribe();
+ 
+    this.paginator.page
+      .pipe(
+        tap(() => this.loadTodos())
+      )
+      .subscribe();
+  }
+ 
+  loadTodos() {
+    this.todoDatasource.loadTodos(this.paginator.pageIndex, this.paginator.pageSize);
   }
 
-    // deletar
+  /*// deletar
     public del(vehicle: Vehicle) {
       this.vehicleService.delete(vehicle.id).subscribe(
         (sucesso) => {
@@ -45,7 +57,7 @@ export class ListVehicleComponent implements OnInit {
           this.msgError = error;
           console.log("Error no delete : " + error);
         });
-    }
+    }*/
   
 /*    public edit(vehicle: Vehicle): void {
       this.dialog.open(UpdateVehicleComponent, {

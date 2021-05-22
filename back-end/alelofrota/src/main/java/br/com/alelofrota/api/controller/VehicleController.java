@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,10 @@ public class VehicleController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
 	@ApiOperation(value = "Return all vehicles in pages")
-	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, Pageable pageable) {
-
+	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, 
+			@RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+		PageRequest pageable = PageRequest.of(page, size);
 		if (filter == null) {
 			Page<VehicleDTO> list = service.findAll(pageable);
 			return ResponseEntity.ok(list);

@@ -8,6 +8,10 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ListVehicleComponent } from './vehicle/list-vehicle/list-vehicle.component';
 import { UpdateVehicleComponent } from './vehicle/update-vehicle/update-vehicle.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,10 @@ import { UpdateVehicleComponent } from './vehicle/update-vehicle/update-vehicle.
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
