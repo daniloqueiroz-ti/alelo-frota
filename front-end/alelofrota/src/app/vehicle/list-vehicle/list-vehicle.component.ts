@@ -1,4 +1,4 @@
-import { VehiclePage } from './../model/vehicle';
+import { Status } from './../model/vehicle';
 import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
 import { TodoDataSource } from './../datasource/vehicle.datasource';
 import { VehicleService } from '../service/vehicle-service';
@@ -20,6 +20,14 @@ export class ListVehicleComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public inputSearch: string;
+  
+  public selectedValue: string = "All";
+
+  statusList: Status[] = [
+    { value: 'All' },
+    { value: 'Active' },
+    { value: 'Inactive' }
+  ];
 
   public msgError: string;
 
@@ -53,7 +61,11 @@ export class ListVehicleComponent implements OnInit {
   }
 
   public search() {
-    this.todoDatasource.loadByFilters(this.inputSearch);
+    let filter = this.selectedValue;
+    if(this.inputSearch != null){
+      filter = this.inputSearch;
+    }
+    this.todoDatasource.loadByFilters(filter);
   }
 
   public openDialog() {

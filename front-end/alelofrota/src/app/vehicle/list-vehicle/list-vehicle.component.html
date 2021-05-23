@@ -5,11 +5,20 @@
 </div>
 
 <div class="row search-bar">
-    <div class="col-6">
+    <div class="col-8">
         <div class="row">
-            <div class="col-10">
+            <div class="col-7">
                 <input class="form-control" [(ngModel)]="inputSearch" type="search" placeholder="plate search">
             </div>
+
+            <div class="col-3">
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedValue" name="status">
+                        <option class="fonte" *ngFor="let status of statusList" [value]="status.value">
+                            {{ status.value }}
+                        </option>
+                    </select>
+            </div>
+
             <div class="col-2">
                 <button mat-raised-button (click)="search()">
                         <span class=" material-icons mr-2 pb-1">
@@ -18,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-4">
         <button class="btn-add" mat-raised-button color="primary" (click)="openDialog()"><span class="material-icons mr-2 pb-1">
             add
         </span>Add Vehicle</button>

@@ -1,4 +1,9 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@font-face {
+    font-family: "Open Sans Bold";
+    src: url("https://fonts.google.com/specimen/Open+Sans?selection.family=Open+Sans");
+}
+
 html,
 body {
     height: 95%;

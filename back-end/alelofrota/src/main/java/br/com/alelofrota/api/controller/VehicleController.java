@@ -45,7 +45,7 @@ public class VehicleController {
 	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, 
 			@RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size) {
-		if (filter.equals("all")) {
+		if (filter.toLowerCase().equals("all")) {
 			Page<VehicleDTO> list = serviceVehicle.all(PageRequest.of(page, size));
 			return ResponseEntity.ok(list);
 		}

@@ -11,3 +11,7 @@ export interface Vehicle {
     color:string;
     status: boolean;
 }
+
+export interface Status {
+    value: string;
+  }
