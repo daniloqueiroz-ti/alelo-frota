@@ -53,14 +53,7 @@ export class ListVehicleComponent implements OnInit {
   }
 
   public search() {
-    console.log("filter="+this.inputSearch);
-      this.vehicleService.getLista("filter="+this.inputSearch).subscribe(
-        (sucesso) => {
-          this.todoDatasource.loadTodos();
-        },
-        error => {
-          this.msgError = error;
-        });
+    this.todoDatasource.loadByFilters(this.inputSearch);
   }
 
   public openDialog() {

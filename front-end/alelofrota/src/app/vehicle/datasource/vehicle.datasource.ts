@@ -26,7 +26,21 @@ export class TodoDataSource implements DataSource<Vehicle>{
 
     loadTodos(pageNumber = 0, pageSize = 10) {
         this.loadingSubject.next(true);
-        this.todoService.getLista({ page: pageNumber, size: pageSize })
+        this.todoService.getLista({ filter: "all", page: pageNumber, size: pageSize })
+            .pipe(
+                catchError(() => of([])),
+                finalize(() => this.loadingSubject.next(false))
+            )
+            .subscribe((result: any) => {
+                this.todoSubject.next(result.content);
+                this.countSubject.next(result.totalElements);
+            }
+            );
+    }
+
+    loadByFilters(filter: string) {
+        this.loadingSubject.next(true);
+        this.todoService.getLista({ filter: filter, page: 0, size: 10 })
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
