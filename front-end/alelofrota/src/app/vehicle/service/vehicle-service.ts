@@ -12,21 +12,17 @@ export class VehicleService {
 
   url = 'http://localhost:8080/vehicle';
 
-  // injetando o HttpClient
   constructor(private httpClient: HttpClient) { }
 
-  // Headers
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  // Obtem todos
   getLista(request: any) {
     const params = request;
     return this.httpClient.get<VehiclePage[]>(this.url, { params });
   }
 
-  // Obtem um pelo id
   getVehicleById(id: number): Observable<Vehicle> {
     return this.httpClient.get<Vehicle>(this.url + '/' + id)
       .pipe(
@@ -35,7 +31,6 @@ export class VehicleService {
       );
   }
 
-  // salvar
   save(vehicle: Vehicle): Observable<Vehicle> {
     return this.httpClient.post<Vehicle>(this.url, vehicle)
       .pipe(
@@ -44,7 +39,6 @@ export class VehicleService {
       );
   }
 
-  // atualizar
   update(vehicle: Vehicle): Observable<Vehicle> {
      return this.httpClient.put<Vehicle>(this.url + '/' + vehicle.id, vehicle, this.httpOptions)
       .pipe(
@@ -53,7 +47,6 @@ export class VehicleService {
       );
   }
 
-  // deletar
   delete(id: number) {
     console.log(this.url + '/' + id);
     return this.httpClient.delete<Vehicle>(this.url + '/' + id, this.httpOptions)
@@ -63,17 +56,8 @@ export class VehicleService {
       );
   }
 
-  // Manipulação de erros
   handleError(error: HttpErrorResponse) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Erro ocorreu no lado do client
-      errorMessage = error.error.message;
-    } else {
-      // Erro ocorreu no lado do servidor
-      errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
-    }
-    console.log('HandleError errorMessage: ' + errorMessage);
-    return throwError(errorMessage);
+    return throwError(error.error.title);
   }
+
 }

@@ -54,7 +54,7 @@ export class UpdateVehicleComponent implements OnInit {
           (sucesso) => {
             this.dialogRef.close();
           },
-          error => {
+          (error) => {
             this.msgError = error;
           });
       } else {
@@ -62,7 +62,7 @@ export class UpdateVehicleComponent implements OnInit {
           (sucesso) => {
             this.dialogRef.close();
           },
-          error => {
+          (error) => {
             this.msgError = error;
           });
       }
