@@ -1,3 +1,4 @@
+import { DeleteVehicleComponent } from './../delete-vehicle/delete-vehicle.component';
 import { Status } from './../model/vehicle';
 import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
 import { TodoDataSource } from './../datasource/vehicle.datasource';
@@ -37,7 +38,7 @@ export class ListVehicleComponent implements OnInit {
   ngOnInit() {
     this.msgError = "";
     this.todoDatasource = new TodoDataSource(this.vehicleService);
-    this.todoDatasource.loadTodos();
+    this.todoDatasource.loadByFilters(this.selectedValue, 0 , 100);
   }
 
   ngAfterViewInit() {
@@ -57,7 +58,7 @@ export class ListVehicleComponent implements OnInit {
   }
 
   loadTodos() {
-    this.todoDatasource.loadTodos(this.paginator.pageIndex, this.paginator.pageSize);
+    this.todoDatasource.loadByFilters(this.selectedValue, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   public search() {
@@ -68,32 +69,39 @@ export class ListVehicleComponent implements OnInit {
     this.todoDatasource.loadByFilters(filter);
   }
 
-  public openDialog() {
+  public addVehicle() {
     this.dialog.open(UpdateVehicleComponent, {
       width: '60%'
     });
     this.dialog.afterAllClosed.subscribe(() => {
-      this.todoDatasource.loadTodos();
+      this.todoDatasource.loadByFilters(this.selectedValue, 0, 10);
     });
   }
 
-  public del(vehicle: any) {
-    this.vehicleService.delete(vehicle.id).subscribe(
-      (sucesso) => {
-        this.todoDatasource.loadTodos();
-      },
-      error => {
-        this.msgError = error;
-      });
+  public delVehicle(vehicle: any) {
+
+    const dialogRef = this.dialog.open(DeleteVehicleComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == true){
+        this.vehicleService.delete(vehicle.id).subscribe(
+          (sucesso) => {
+            this.todoDatasource.loadByFilters("All", 0, 10);
+          },
+          error => {
+            this.msgError = error;
+          }); 
+      }
+    });
   }
 
-  public edit(vehicle: any): void {
+  public editVehicle(vehicle: any): void {
     this.dialog.open(UpdateVehicleComponent, {
       width: '50%',
       data: vehicle
     });
     this.dialog.afterAllClosed.subscribe((sucesso: any) => {
-      this.todoDatasource.loadTodos();
+      this.todoDatasource.loadByFilters(this.selectedValue, 0, 10);
     },
       error => {
         this.msgError = error;

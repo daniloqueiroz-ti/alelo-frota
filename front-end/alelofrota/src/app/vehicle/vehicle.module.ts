@@ -15,11 +15,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { DeleteVehicleComponent } from './delete-vehicle/delete-vehicle.component';
 
 @NgModule({
   declarations: [
     ListVehicleComponent,
-    UpdateVehicleComponent
+    UpdateVehicleComponent,
+    DeleteVehicleComponent
 
   ],
   imports: [

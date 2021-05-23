@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-4">
-        <button class="btn-add" mat-raised-button color="primary" (click)="openDialog()"><span class="material-icons mr-2 pb-1">
+        <button class="btn-add" mat-raised-button color="primary" (click)="addVehicle()"><span class="material-icons mr-2 pb-1">
             add
         </span>Add Vehicle</button>
     </div>
@@ -36,7 +36,7 @@
 
 <mat-card class="fundo-lightcoral" *ngIf="msgError"><span>{{ msgError }}</span></mat-card>
 
-<table mat-table [dataSource]="todoDatasource" class="mat-elevation-z8">
+<table class="mat-elevation-z8" mat-table [dataSource]="todoDatasource">
 
     <ng-container matColumnDef="Id">
         <th mat-header-cell *matHeaderCellDef> Id </th>
@@ -64,18 +64,18 @@
     </ng-container>
 
     <ng-container matColumnDef="Status">
-        <th mat-header-cell *matHeaderCellDef> status </th>
+        <th mat-header-cell *matHeaderCellDef> Status </th>
         <td mat-cell *matCellDef="let element">{{element.status ? 'Active' : 'Inactive'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="accent" (click)="edit(element)">
+            <button mat-raised-button color="accent" (click)="editVehicle(element)">
                 <span class="material-icons mr-2 pb-1">
                 edit
                 </span>Editar</button>
-            <button class="espaco-entre" mat-raised-button color="warn" (click)="del(element)">
+            <button class="espaco-entre" mat-raised-button color="warn" (click)="delVehicle(element)">
                     <span class="material-icons mr-2 pb-1">
                     delete
                     </span>Apagar</button>
