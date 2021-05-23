@@ -2,26 +2,63 @@
     <div style="float: right;">
         <img src="../../../assets/img/car.png">
     </div>
-    <div style="float: left;">
-        <h1>Update Vehicle</h1>
-        <form class="example-form">
-            <mat-label>Plate (disabled)</mat-label>
-            <input matInput>
-            <mat-label>Model</mat-label>
-            <input matInput>
-            <mat-label>Manufacturer</mat-label>
-            <input matInput>
-            <mat-label>Color</mat-label>
-            <input matInput>
-            <mat-label>Status</mat-label>
-            <input matInput>
-            <mat-radio-group aria-label="Status" style="display: block;">
-                <mat-radio-button value="active">Active</mat-radio-button>
-                <mat-radio-button value="inactive">Inactive</mat-radio-button>
-            </mat-radio-group>
-            <button mat-raised-button>Reset All</button>
-            <button mat-raised-button color="primary">Save</button>
-        </form>
+    <div>
+        <h1 mat-dialog-title class="mb-4">Update Vehicle</h1>
+        <div mat-dialog-content style="width: 60%;">
+            <form id="add-form" (ngSubmit)="save()" [formGroup]="formulario" novalidate>
+
+                <mat-card class="fundo-lightcoral" *ngIf="msgError"><span>{{ msgError }}</span></mat-card>
+
+                <div class="form-group" hidden>
+                    <label for="id">id</label>
+                    <input type="text" id="id" formControlName="id" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="plate">Plate</label>
+                    <input type="text" id="plate" formControlName="plate" class="form-control" placeholder="ABC - 1234" [ngClass]="aplicaCssErro('plate')">
+                    <div *ngIf="verificaValidTouched('plate')">
+                        <span class="font-red">This field is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" formControlName="model" class="form-control" placeholder="Class C 1.6 Avantgarde Turbo Flex" [ngClass]="aplicaCssErro('model')">
+                    <div *ngIf="verificaValidTouched('model')">
+                        <span class="font-red">This field is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="manufacturer">Manufacturer</label>
+                    <input type="text" id="manufacturer" formControlName="manufacturer" class="form-control" placeholder="Mercedez-Benz" [ngClass]="aplicaCssErro('manufacturer')">
+                    <div *ngIf="verificaValidTouched('manufacturer')">
+                        <span class="font-red">This field is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="color">Color</label>
+                    <input type="text" id="color" formControlName="color" class="form-control" placeholder="Black" [ngClass]="aplicaCssErro('color')">
+                    <div *ngIf="verificaValidTouched('color')">
+                        <span class="font-red">This field is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" id="status" formControlName="status" class="form-check-input" checked>
+                    <label class="form-check-label" for="status">Active</label>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="reset" mat-raised-button color="accent" class="mr-3" (click)="resetar()">
+                        Reset All</button>
+                    <button type="submit" mat-raised-button style="background-color: #06d6a0; color: white;">
+                        Save</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 </div>

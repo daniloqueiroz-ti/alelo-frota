@@ -25,7 +25,7 @@ export class VehicleService {
     const params = request;
     return this.httpClient.get<VehiclePage[]>(this.url, { params });
   }
-/*
+
   // Obtem um pelo id
   getVehicleById(id: number): Observable<Vehicle> {
     return this.httpClient.get<Vehicle>(this.url + '/' + id)
@@ -51,7 +51,7 @@ export class VehicleService {
         retry(1),
         catchError(this.handleError)
       );
-  }*/
+  }
 
   // deletar
   delete(id: number) {

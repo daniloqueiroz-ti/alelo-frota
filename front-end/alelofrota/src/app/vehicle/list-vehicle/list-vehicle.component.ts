@@ -70,19 +70,19 @@ export class ListVehicleComponent implements OnInit {
         });
     }
   
-/*     public edit(vehicle: VehiclePage): void {
+     public edit(vehicle: any): void {
       this.dialog.open(UpdateVehicleComponent, {
         width: '50%',
         data: vehicle
       });
       this.dialog.afterAllClosed.subscribe((sucesso: any) => {
         console.log(sucesso);
-        this.getLista();
+        this.todoDatasource.loadTodos();
       },
         error => {
           this.msgError = error;
           console.log("Error no edit : " + error);
         });
-    } */
+    } 
 
 }
