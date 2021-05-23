@@ -25,42 +25,42 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Autowired
 	private MessageSource messageSource;
 	
-	//implementação pelo throw new NegocioException
-	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<Object> handleNegocio(NegocioException ex, WebRequest request) {
+	//implements to throw new RoleException
+	@ExceptionHandler(RoleException.class)
+	public ResponseEntity<Object> handleNegocio(RoleException ex, WebRequest request) {
 		
 		var status = HttpStatus.BAD_REQUEST;
 		
-		var problema = new Problema();
+		var problema = new Problem();
 		problema.setStatus(status.value());
-		problema.setTitulo(ex.getMessage());
-		problema.setDataHora(LocalDateTime.now());
+		problema.setTitle(ex.getMessage());
+		problema.setDateTime(LocalDateTime.now());
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
-	//implementação pelo @valid
+	//implements to @valid
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		var campos = new ArrayList<Problema.Campo>();
+		var fields = new ArrayList<Problem.Field>();
 		
 		for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-			String nome = ((FieldError) error).getField();
-			String mensagem = messageSource.getMessage(error, LocaleContextHolder.getLocale());
+			String name = ((FieldError) error).getField();
+			String menssage = messageSource.getMessage(error, LocaleContextHolder.getLocale());
 			
-			campos.add(new Problema.Campo(nome, mensagem));
+			fields.add(new Problem.Field(name, menssage));
 		}
 		
-		var problema = new Problema();
-		problema.setStatus(status.value());
-		problema.setTitulo("Um ou mais campos estão inválidos. "
-				+ "Faça o preenchimento correto e tente novamente");
-		problema.setDataHora(LocalDateTime.now());
-		problema.setCampos(campos);
+		var problem = new Problem();
+		problem.setStatus(status.value());
+		problem.setTitle("One or more fields are invalid. "
+				+ "Fill in correctly and try again.");
+		problem.setDateTime(LocalDateTime.now());
+		problem.setFields(fields);
 		
-		return super.handleExceptionInternal(ex, problema, headers, status, request);
+		return super.handleExceptionInternal(ex, problem, headers, status, request);
 	}
 	
 }

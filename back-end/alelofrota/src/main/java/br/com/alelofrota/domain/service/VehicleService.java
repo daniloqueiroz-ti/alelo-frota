@@ -1,6 +1,7 @@
 package br.com.alelofrota.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,64 +11,51 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alelofrota.domain.dto.VehicleDTO;
 import br.com.alelofrota.domain.model.Vehicle;
-import br.com.alelofrota.domain.repository.VehicleRepository;
+import br.com.alelofrota.domain.repository.AllVehicles;
 
 @Service
 public class VehicleService {
 
 	@Autowired
-	VehicleRepository repository;
+	AllVehicles allVehicles;
 
-//	/vehicle?page=1&limit=10 Lista veiculos paginados
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> findAll(Pageable pageable) {
-		Page<Vehicle> result = repository.findAll(pageable);
+	public Page<VehicleDTO> all(Pageable pageable) {
+		Page<Vehicle> result = allVehicles.findAll(pageable);
 		return result.map(v -> new VehicleDTO(v));
 	}
 
-//	/vehicle?filter=ABC4852 Busca veículo pela placa
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> findByPlate(String plate, Pageable pageable) {
-		Page<Vehicle> result = repository.findByPlateContains(plate, pageable);
+	public Page<VehicleDTO> withPlateContains(String plate, Pageable pageable) {
+		Page<Vehicle> result = allVehicles.findByPlateContains(plate, pageable);
 		return result.map(v -> new VehicleDTO(v));
 	}
 
-	// Verify isExist
 	@Transactional(readOnly = true)
-	public boolean existsVehicleByPlate(String plate) {
-		return repository.existsVehicleByPlate(plate);
+	public boolean existsVehicleWithPlate(String plate) {
+		return allVehicles.existsVehicleByPlate(plate);
 	}
 
-//	/vehicle?filter=true Lista veículos pelo status
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> findByStatus(boolean status, Pageable pageable) {
-		Page<Vehicle> result = repository.findByStatus(status, pageable);
+	public Page<VehicleDTO> withStatus(boolean status, Pageable pageable) {
+		Page<Vehicle> result = allVehicles.findByStatus(status, pageable);
 		return result.map(v -> new VehicleDTO(v));
 	}
 
-//	/vehicle/:id Busca um veículo específico
 	@Transactional(readOnly = true)
-	public VehicleDTO findById(Long id) {
-		Vehicle v = repository.findById(id).orElse(null);
-		if (v == null) {
-			return null;
-		}
-		return new VehicleDTO(v);
+	public Optional<Vehicle> withId(Long id) {
+		return allVehicles.findById(id);
 	}
 
-//	/vehicle Cria / atualizar um novo veículo
-	public VehicleDTO save(Vehicle v) {
-		return new VehicleDTO(repository.save(v));
+	public VehicleDTO saveVehicle(Vehicle v) {
+		return new VehicleDTO(allVehicles.save(v));
 	}
 
-//	/vehicle/:id Remove um veículo
-	public void delete(Vehicle v) {
-		repository.delete(v);
+	public void deleteVehicle(Vehicle v) {
+		allVehicles.delete(v);
 	}
 
-//	dbinit
-	public void saveAll(List<Vehicle> list) {
-		repository.saveAll(list);
+	public void saveAllVehicles(List<Vehicle> list) {
+		allVehicles.saveAll(list);
 	}
-
 }

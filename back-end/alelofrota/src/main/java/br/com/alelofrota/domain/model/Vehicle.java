@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+import br.com.alelofrota.domain.utilities.Util;
 import lombok.Data;
 
 @Entity
@@ -51,6 +52,10 @@ public class Vehicle implements Serializable  {
 
 	public Vehicle(long id) {
 		this.id = id;
+	}
+	
+	public void addPlate(String plate) {
+		this.plate = Util.removeSpecialCharacters(plate).toUpperCase();
 	}
 	
 }

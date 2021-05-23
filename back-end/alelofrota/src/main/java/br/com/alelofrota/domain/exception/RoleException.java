@@ -1,10 +1,10 @@
 package br.com.alelofrota.domain.exception;
 
-public class NegocioException extends RuntimeException {
+public class RoleException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public NegocioException(String message) {
+	public RoleException(String message) {
 		super(message);
 	}
 	

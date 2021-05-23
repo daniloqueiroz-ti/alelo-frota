@@ -3,6 +3,6 @@ package br.com.alelofrota.domain.utilities;
 public class Util {
 
 	public static String removeSpecialCharacters(String str) {
-		return str.replaceAll("[^a-zA-Z0-9]", "");
+		return str.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
 	}
 }

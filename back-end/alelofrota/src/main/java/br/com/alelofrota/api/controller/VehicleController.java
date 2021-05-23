@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alelofrota.domain.dto.VehicleDTO;
-import br.com.alelofrota.domain.exception.NegocioException;
+import br.com.alelofrota.domain.exception.RoleException;
 import br.com.alelofrota.domain.model.Vehicle;
 import br.com.alelofrota.domain.service.VehicleService;
 import br.com.alelofrota.domain.utilities.Util;
@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 public class VehicleController {
 
 	@Autowired
-	private VehicleService service;
+	private VehicleService serviceVehicle;
 
 	// http://localhost:8080/vehicle?page=1&size=10&sort=status,desc
 	// http://localhost:8080/vehicle?filter=ABC4852
@@ -45,21 +45,18 @@ public class VehicleController {
 	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, 
 			@RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size) {
-		PageRequest pageable = PageRequest.of(page, size);
 		if (filter == null) {
-			Page<VehicleDTO> list = service.findAll(pageable);
+			Page<VehicleDTO> list = serviceVehicle.all(PageRequest.of(page, size));
 			return ResponseEntity.ok(list);
 		}
-		String str = Util.removeSpecialCharacters(filter);
-		filter = str;
-		if (filter.toLowerCase().equals("active")) {
-			Page<VehicleDTO> list = service.findByStatus(true, pageable);
+		if (Util.removeSpecialCharacters(filter).toLowerCase().equals("active")) {
+			Page<VehicleDTO> list = serviceVehicle.withStatus(true, PageRequest.of(page, size));
 			return ResponseEntity.ok(list);
-		} else if (filter.toLowerCase().equals("inactive")) {
-			Page<VehicleDTO> list = service.findByStatus(false, pageable);
+		} else if (Util.removeSpecialCharacters(filter).equals("inactive")) {
+			Page<VehicleDTO> list = serviceVehicle.withStatus(false, PageRequest.of(page, size));
 			return ResponseEntity.ok(list);
 		} else {
-			Page<VehicleDTO> list = service.findByPlate(filter.toUpperCase(), pageable);
+			Page<VehicleDTO> list = serviceVehicle.withPlateContains(Util.removeSpecialCharacters(filter).toUpperCase(), PageRequest.of(page, size));
 			return ResponseEntity.ok(list);
 		}
 	}
@@ -69,52 +66,39 @@ public class VehicleController {
 	@GetMapping(value = "/{id}")
 	@ApiOperation(value = "Return vehicle by id")
 	public ResponseEntity<VehicleDTO> findById(@PathVariable Long id) {
-		VehicleDTO vDTO = service.findById(id);
-		if (vDTO == null) {
-			throw new NegocioException("Vehicle not found!");
-		}
-		return ResponseEntity.ok(vDTO);
+		Vehicle vehicle = serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
+		return ResponseEntity.ok(new VehicleDTO(vehicle));
 	}
 
 	// http://localhost:8080/vehicle
 	@PostMapping
 	@ApiOperation(value = "Save Vehicle")
-	public ResponseEntity<VehicleDTO> save(@Valid @RequestBody Vehicle v) {
-		String str = Util.removeSpecialCharacters(v.getPlate());
-		v.setPlate(str.toUpperCase());
-		//Verify isExist
-		if (service.existsVehicleByPlate(v.getPlate())) {
-			throw new NegocioException("This plate already exist!");
+	public ResponseEntity<VehicleDTO> save(@Valid @RequestBody Vehicle vehicle) {
+		vehicle.addPlate(vehicle.getPlate());
+		if (serviceVehicle.existsVehicleWithPlate(vehicle.getPlate())) {
+			throw new RoleException("This plate already exist!");
 		}
-		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
+		return new ResponseEntity<VehicleDTO>(serviceVehicle.saveVehicle(vehicle), HttpStatus.CREATED);
 	}
 
 	// http://localhost:8080/vehicle/id
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Update Vehicle")
-	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody Vehicle v, @PathVariable Long id) {
-		VehicleDTO vDTO = service.findById(id);
-		if (vDTO == null) {
-			throw new NegocioException("Vehicle not found!");
+	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody Vehicle vehicle, @PathVariable Long id) {
+		vehicle.addPlate(vehicle.getPlate());
+		Vehicle vehicleAux = serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
+		if (!vehicleAux.getPlate().equals(vehicle.getPlate())) {
+			throw new RoleException("It isn't allowed to change a plate!");
 		}
-		//Verify if update on plate
-		if (vDTO.getPlate().equals(v.getPlate())) {
-			throw new NegocioException("It isn't allowed to change a plate!");
-		}
-		String str = Util.removeSpecialCharacters(v.getPlate());
-		v.setPlate(str.toUpperCase());
-		return new ResponseEntity<VehicleDTO>(service.save(v), HttpStatus.CREATED);
+		return new ResponseEntity<VehicleDTO>(serviceVehicle.saveVehicle(vehicle), HttpStatus.CREATED);
 	}
 
 	// http://localhost:8080/vehicle/id
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete Vehicle")
 	public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
-		VehicleDTO vDTO = service.findById(id);
-		if (vDTO == null) {
-			throw new NegocioException("Vehicle not found!");
-		}
-		service.delete(new Vehicle(id));
+		serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
+		serviceVehicle.deleteVehicle(new Vehicle(id));
 		return ResponseEntity.noContent().build();
 	}
 

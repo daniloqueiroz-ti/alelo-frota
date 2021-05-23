@@ -12,26 +12,26 @@ import lombok.Setter;
 
 @JsonInclude(Include.NON_NULL)
 @Data
-public class Problema {
+public class Problem {
 
 	private Integer status;
-	private LocalDateTime dataHora;
-	private String titulo;
-	private List<Campo> campos;
+	private LocalDateTime dateTime;
+	private String title;
+	private List<Field> fields;
 
-	public static class Campo {
+	public static class Field {
 
 		@Getter 
 		@Setter
-		private String nome;
+		private String name;
 		@Getter 
 		@Setter
-		private String mensagem;
+		private String mensage;
 
-		public Campo(String nome, String mensagem) {
+		public Field(String name, String mensage) {
 			super();
-			this.nome = nome;
-			this.mensagem = mensagem;
+			this.name = name;
+			this.mensage = mensage;
 		}
 
 	}
