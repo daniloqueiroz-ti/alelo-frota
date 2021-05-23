@@ -1,3 +1,4 @@
+import { VehiclePage } from './../model/vehicle';
 import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
 import { TodoDataSource } from './../datasource/vehicle.datasource';
 import { VehicleService } from '../service/vehicle-service';
@@ -13,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ListVehicleComponent implements OnInit {
 
-  displayedColumns = ['Id', 'Plate', 'Model', 'Manufacturer', 'Color', 'Status'];
+  displayedColumns = ['Id', 'Plate', 'Model', 'Manufacturer', 'Color', 'Status', 'Action'];
 
   todoDatasource: TodoDataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -57,20 +58,19 @@ export class ListVehicleComponent implements OnInit {
     });
   }
 
-  /*// deletar
-    public del(vehicle: Vehicle) {
+    public del(vehicle: any) {
       this.vehicleService.delete(vehicle.id).subscribe(
         (sucesso) => {
           console.log(sucesso);
-          this.getLista();
+          this.todoDatasource.loadTodos();
         },
         error => {
           this.msgError = error;
           console.log("Error no delete : " + error);
         });
-    }*/
+    }
   
-/*    public edit(vehicle: Vehicle): void {
+/*     public edit(vehicle: VehiclePage): void {
       this.dialog.open(UpdateVehicleComponent, {
         width: '50%',
         data: vehicle
@@ -83,6 +83,6 @@ export class ListVehicleComponent implements OnInit {
           this.msgError = error;
           console.log("Error no edit : " + error);
         });
-    }*/
+    } */
 
 }

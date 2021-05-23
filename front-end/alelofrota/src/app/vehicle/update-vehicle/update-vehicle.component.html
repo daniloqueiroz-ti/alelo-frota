@@ -1,15 +1,27 @@
-<h1>Update Vehicle</h1>
-<form class="example-form">
-    <mat-label>Plate (disabled)</mat-label>
-    <input matInput>
-    <mat-label>Model</mat-label>
-    <input matInput>
-    <mat-label>Manufacturer</mat-label>
-    <input matInput>
-    <mat-label>Color</mat-label>
-    <input matInput>
-    <mat-label>Status</mat-label>
-    <input matInput>
-    <button mat-raised-button>Reset All</button>
-    <button mat-raised-button color="primary">Save</button>
-</form>
+<div>
+    <div style="float: right;">
+        <img src="../../../assets/img/car.png">
+    </div>
+    <div style="float: left;">
+        <h1>Update Vehicle</h1>
+        <form class="example-form">
+            <mat-label>Plate (disabled)</mat-label>
+            <input matInput>
+            <mat-label>Model</mat-label>
+            <input matInput>
+            <mat-label>Manufacturer</mat-label>
+            <input matInput>
+            <mat-label>Color</mat-label>
+            <input matInput>
+            <mat-label>Status</mat-label>
+            <input matInput>
+            <mat-radio-group aria-label="Status" style="display: block;">
+                <mat-radio-button value="active">Active</mat-radio-button>
+                <mat-radio-button value="inactive">Inactive</mat-radio-button>
+            </mat-radio-group>
+            <button mat-raised-button>Reset All</button>
+            <button mat-raised-button color="primary">Save</button>
+        </form>
+    </div>
+
+</div>

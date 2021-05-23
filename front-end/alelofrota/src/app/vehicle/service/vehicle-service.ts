@@ -51,7 +51,7 @@ export class VehicleService {
         retry(1),
         catchError(this.handleError)
       );
-  }
+  }*/
 
   // deletar
   delete(id: number) {
@@ -75,5 +75,5 @@ export class VehicleService {
     }
     console.log('HandleError errorMessage: ' + errorMessage);
     return throwError(errorMessage);
-  }*/
+  }
 }
