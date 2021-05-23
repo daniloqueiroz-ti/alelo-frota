@@ -52,7 +52,6 @@ export class UpdateVehicleComponent implements OnInit {
       if (this.formulario.get('id')!.value != null) {
         this.vehicleService.update(this.formulario.value).subscribe(
           (sucesso) => {
-            console.log(sucesso);
             this.dialogRef.close();
           },
           error => {
@@ -61,7 +60,6 @@ export class UpdateVehicleComponent implements OnInit {
       } else {
         this.vehicleService.save(this.formulario.value).subscribe(
           (sucesso) => {
-            console.log(sucesso);
             this.dialogRef.close();
           },
           error => {

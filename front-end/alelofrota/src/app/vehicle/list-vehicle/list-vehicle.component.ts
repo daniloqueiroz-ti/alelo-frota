@@ -19,16 +19,19 @@ export class ListVehicleComponent implements OnInit {
   todoDatasource: TodoDataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public inputSearch: string;
+
   public msgError: string;
- 
-  constructor(public dialog: MatDialog, private vehicleService: VehicleService) { 
+
+  constructor(public dialog: MatDialog, private vehicleService: VehicleService) {
   }
 
-  ngOnInit() {    
+  ngOnInit() {
+    this.msgError = "";
     this.todoDatasource = new TodoDataSource(this.vehicleService);
     this.todoDatasource.loadTodos();
   }
- 
+
   ngAfterViewInit() {
     this.todoDatasource.counter$
       .pipe(
@@ -37,16 +40,27 @@ export class ListVehicleComponent implements OnInit {
         })
       )
       .subscribe();
- 
+
     this.paginator.page
       .pipe(
         tap(() => this.loadTodos())
       )
       .subscribe();
   }
- 
+
   loadTodos() {
     this.todoDatasource.loadTodos(this.paginator.pageIndex, this.paginator.pageSize);
+  }
+
+  public search() {
+    console.log("filter="+this.inputSearch);
+      this.vehicleService.getLista("filter="+this.inputSearch).subscribe(
+        (sucesso) => {
+          this.todoDatasource.loadTodos();
+        },
+        error => {
+          this.msgError = error;
+        });
   }
 
   public openDialog() {
@@ -58,31 +72,27 @@ export class ListVehicleComponent implements OnInit {
     });
   }
 
-    public del(vehicle: any) {
-      this.vehicleService.delete(vehicle.id).subscribe(
-        (sucesso) => {
-          console.log(sucesso);
-          this.todoDatasource.loadTodos();
-        },
-        error => {
-          this.msgError = error;
-          console.log("Error no delete : " + error);
-        });
-    }
-  
-     public edit(vehicle: any): void {
-      this.dialog.open(UpdateVehicleComponent, {
-        width: '50%',
-        data: vehicle
-      });
-      this.dialog.afterAllClosed.subscribe((sucesso: any) => {
-        console.log(sucesso);
+  public del(vehicle: any) {
+    this.vehicleService.delete(vehicle.id).subscribe(
+      (sucesso) => {
         this.todoDatasource.loadTodos();
       },
-        error => {
-          this.msgError = error;
-          console.log("Error no edit : " + error);
-        });
-    } 
+      error => {
+        this.msgError = error;
+      });
+  }
+
+  public edit(vehicle: any): void {
+    this.dialog.open(UpdateVehicleComponent, {
+      width: '50%',
+      data: vehicle
+    });
+    this.dialog.afterAllClosed.subscribe((sucesso: any) => {
+      this.todoDatasource.loadTodos();
+    },
+      error => {
+        this.msgError = error;
+      });
+  }
 
 }

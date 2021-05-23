@@ -6,19 +6,17 @@
 
 <div class="row search-bar">
     <div class="col-6">
-        <form>
-            <div class="row">
-                <div class="col-10">
-                    <input class="form-control" type="search" placeholder="plate search">
-                </div>
-                <div class="col-2">
-                    <button mat-raised-button>
-                        <span class="material-icons mr-2 pb-1">
+        <div class="row">
+            <div class="col-10">
+                <input class="form-control" [(ngModel)]="inputSearch" type="search" placeholder="plate search">
+            </div>
+            <div class="col-2">
+                <button mat-raised-button (click)="search()">
+                        <span class=" material-icons mr-2 pb-1">
                             search
                         </span>Search</button>
-                </div>
             </div>
-        </form>
+        </div>
     </div>
     <div class="col-6">
         <button class="btn-add" mat-raised-button color="primary" (click)="openDialog()"><span class="material-icons mr-2 pb-1">
@@ -26,6 +24,8 @@
         </span>Add Vehicle</button>
     </div>
 </div>
+
+<mat-card class="fundo-lightcoral" *ngIf="msgError"><span>{{ msgError }}</span></mat-card>
 
 <table mat-table [dataSource]="todoDatasource" class="mat-elevation-z8">
 
