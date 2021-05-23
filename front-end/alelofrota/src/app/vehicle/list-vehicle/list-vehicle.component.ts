@@ -1,11 +1,10 @@
+import { UpdateVehicleComponent } from './../update-vehicle/update-vehicle.component';
 import { TodoDataSource } from './../datasource/vehicle.datasource';
-import { VehiclePage } from './../model/vehicle';
 import { VehicleService } from '../service/vehicle-service';
-import { Vehicle } from '../model/vehicle';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs/operators';
-
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-vehicle',
@@ -18,11 +17,13 @@ export class ListVehicleComponent implements OnInit {
 
   todoDatasource: TodoDataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  public msgError: string;
  
-  constructor(private vehicleService: VehicleService) { 
+  constructor(public dialog: MatDialog, private vehicleService: VehicleService) { 
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.todoDatasource = new TodoDataSource(this.vehicleService);
     this.todoDatasource.loadTodos();
   }
@@ -45,6 +46,15 @@ export class ListVehicleComponent implements OnInit {
  
   loadTodos() {
     this.todoDatasource.loadTodos(this.paginator.pageIndex, this.paginator.pageSize);
+  }
+
+  public openDialog() {
+    this.dialog.open(UpdateVehicleComponent, {
+      width: '60%'
+    });
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.todoDatasource.loadTodos();
+    });
   }
 
   /*// deletar

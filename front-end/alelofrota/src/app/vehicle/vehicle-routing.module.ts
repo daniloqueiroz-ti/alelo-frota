@@ -1,11 +1,11 @@
-import { VehicleComponent } from './vehicle.component';
+import { ListVehicleComponent } from './list-vehicle/list-vehicle.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: "vehicle",
-    component: VehicleComponent
+    component: ListVehicleComponent
   }
 ];
 

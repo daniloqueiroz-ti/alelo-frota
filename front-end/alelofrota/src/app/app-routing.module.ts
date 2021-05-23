@@ -1,6 +1,5 @@
-import { AppComponent } from './app.component';
+import { ListVehicleComponent } from './vehicle/list-vehicle/list-vehicle.component';
 import { ReportsComponent } from './reports/reports.component';
-import { VehicleComponent } from './vehicle/vehicle.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: "",
-    component: VehicleComponent
+    component: ListVehicleComponent
   },
   {
     path: "dashboard",
@@ -16,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: "vehicle",
-    component: VehicleComponent
+    component: ListVehicleComponent
   },
   {
     path: "reports",
