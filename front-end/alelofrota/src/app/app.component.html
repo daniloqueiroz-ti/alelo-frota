@@ -1,36 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened">
+            menu
+        </mat-icon>
+        <mat-icon *ngIf="sidenav.opened">
+            close
+        </mat-icon>
+    </button> Alelo Vehicle Management
+</mat-toolbar>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alelo Frota</title>
-</head>
-<html>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
 
-<body>
-    <aside class="navegacao-site">
-        <div class="menu">
-            <img src="../assets/img/alelo-logo.png">
-            <h1 class="titulo">Alelo Frota</h1>
-            <ul>
-                <a routerLink="/dashboard">
-                    <li><img class="icon" src="../assets/icon/border-all-solid.svg" />DashBoard</li>
-                </a>
-                <a routerLink="/vehicle">
-                    <li><img class="icon" src="../assets/icon/car-side-solid.svg" />Vehicle</li>
-                </a>
-                <a routerLink="/reports">
-                    <li><img class="icon" src="../assets/icon/chart-bar-solid.svg" />Reports</li>
-                </a>
+        <img class="logo mat-elevation-z8" src="../assets/img/alelo-logo.png" />
 
-            </ul>
+        <h4 class="logo-name">Alelo Frota</h4>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" routerLink="/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/vehicle">
+            <mat-icon>directions_car</mat-icon>
+            <span>Vehicle</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/reports">
+            <mat-icon>description</mat-icon>
+            <span>Reports</span>
+        </button>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="content mat-elevation-z8">
+            <router-outlet></router-outlet>
         </div>
-    </aside>
-    <div class="pages">
-        <router-outlet></router-outlet>
-    </div>
-</body>
-
-</html>
+    </mat-sidenav-content>
+</mat-sidenav-container>
