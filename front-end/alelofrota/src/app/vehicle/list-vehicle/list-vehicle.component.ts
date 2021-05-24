@@ -38,7 +38,7 @@ export class ListVehicleComponent implements OnInit {
   ngOnInit() {
     this.msgError = "";
     this.todoDatasource = new TodoDataSource(this.vehicleService);
-    this.todoDatasource.loadByFilters(this.selectedValue, 0 , 100);
+    this.todoDatasource.loadByFilters(this.selectedValue, 0 , 10);
   }
 
   ngAfterViewInit() {
