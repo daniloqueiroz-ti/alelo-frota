@@ -1,3 +1,7 @@
+.conteudo {
+    width: 80%;
+}
+
 .border-red {
     border: 1px solid red;
 }
@@ -12,6 +16,7 @@
 
 .float-direita {
     float: right;
+    margin-left: 20px;
 }
 
 .form {
@@ -29,7 +34,12 @@
 }
 
 .btn-between {
-    margin: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.btn-save {
+    margin-left: 25px;
 }
 
 .ck-input {
