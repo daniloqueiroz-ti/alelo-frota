@@ -54,7 +54,7 @@
             <div class="d-flex aling-btn">
                 <button class="btn-between" type="reset" mat-raised-button (click)="resetar()">
                         Reset All</button>
-                <button class="btn-between btn-save" type="submit" mat-raised-button color="primary">
+                <button class="btn-between btn-save" type="submit" mat-raised-button color="primary" [disabled]="!formulario.valid">
                         Save</button>
             </div>
         </form>

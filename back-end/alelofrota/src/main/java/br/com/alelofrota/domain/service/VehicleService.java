@@ -18,6 +18,11 @@ public class VehicleService {
 
 	@Autowired
 	AllVehicles allVehicles;
+	
+	@Transactional(readOnly = true)
+	public List<Vehicle> findAll() {
+		return allVehicles.findAll();
+	}
 
 	@Transactional(readOnly = true)
 	public Page<VehicleDTO> all(Pageable pageable) {

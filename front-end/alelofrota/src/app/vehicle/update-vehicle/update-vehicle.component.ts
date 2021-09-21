@@ -34,12 +34,19 @@ export class UpdateVehicleComponent implements OnInit {
   private novoFormulario(): void {
     this.formulario = new FormGroup({
       id: new FormControl(null),
-      plate: new FormControl(null, Validators.required),
-      model: new FormControl(null, Validators.required),
-      manufacturer: new FormControl(null, Validators.required),
-      color: new FormControl(null, Validators.required),
+      plate: new FormControl(null, [Validators.required, this.noWhiteSpaceValidator]),
+      model: new FormControl(null, [Validators.required, this.noWhiteSpaceValidator]),
+      manufacturer: new FormControl(null, [Validators.required, this.noWhiteSpaceValidator]),
+      color: new FormControl(null, [Validators.required, this.noWhiteSpaceValidator]),
       status: new FormControl(true)
     });
+  }
+
+  private noWhiteSpaceValidator(control: FormControl){
+    let isWhiteSpace = (control.value || '').trim().lenght === 0;
+    let isValid = !isWhiteSpace;
+    console.log(isValid);
+    return isValid ? null : { "whiteSpace": true }
   }
 
   public resetar(): void {
@@ -48,6 +55,7 @@ export class UpdateVehicleComponent implements OnInit {
   }
 
   public save() {
+    console.log(this.formulario);
     if (this.formulario.valid) {
       if (this.formulario.get('id')!.value != null) {
         this.vehicleService.update(this.formulario.value).subscribe(
