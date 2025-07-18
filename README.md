@@ -1,41 +1,40 @@
 # Alelo Frota
-Projeto desafio Alelo Fullstack Test - Alelo Frota 2020
+Alelo Fullstack Test Challenge Project - Alelo Frota 2020
 
 https://github.com/alelofrota/fullstack-test
 
 ---
 
-## Objetivo
-- Adaptar o layout proposto para ser responsivo, considerando mobile-first para ajudar você pode utilizar frameworks CSS (bootstrap, angular material, clarity, etc) e seguindo o guide e padrões definidos.
-- Integrar os dados na tela utilizando a API criados por você no teste de backend;
-- Implementar busca por placa ao clicar no icone de editar e carregar dados do veiculo;
-- Implementar filtro de busca por placa do veículo e atualizar tabela;
-- Implementar a lógica de paginação para carregar 10 itens por página (5 paginas o total maximo que a API retorna);
-- Deve ser feito utilizando Angular 8+ e pré-processador SCSS;
+## Objective
+- Adapt the proposed layout to be responsive, considering mobile-first. You can use CSS frameworks (Bootstrap, Angular Material, Clarity, etc.) and follow the guide and defined standards.
+- Integrate the data on the screen using the API you created in the backend test;
+- Implement a license plate search by clicking the edit icon and loading vehicle data;
+- Implement a license plate search filter and update the table;
+- Implement pagination logic to load 10 items per page (5 pages is the maximum total the API returns);
+- Must be done using Angular 8+ and SCSS preprocessor;
 
 ---
 
-## O que esperamos ver frontend
-- Utilização de rotas;
-- Paginação
-- Filtro buscando na API
-- Layout responsivo (Não precisa seguir o layout tão ao pé da letra, o intuito aqui é testar seu nível de frontend e de backend)
+## What we expect to see on the frontend
+- Use of routes; - Pagination
+- Filter searching in the API
+- Responsive layout (You don't need to follow the layout exactly; the goal here is to test your frontend and backend skills)
 
 ---
 
-## O que esperamos ver backend
-- Api Rest, utilizando o máximo dos conceitos de rest
-- Teste Unitário
-- Teste com banco embarcado
-- Tratativas de Erro
-- Uso de JPA
-- Uso de swagger
+## What we expect to see on the backend
+- REST API, utilizing REST concepts as much as possible
+- Unit testing
+- Embedded database testing
+- Error handling
+- Use of JPA
+- Use of Swagger
 
 ---
 
-## O que gostariamos de ver
-- Metodologia CSS
-- Mixins, placeholders, functions, variáveis, animações, loaders...
+## What we'd like to see
+- CSS methodology
+- Mixins, placeholders, functions, variables, animations, loaders...
 - Rxjs
-- Tratamento de erros no front
-- Teste unitário no front
+- Error handling on the frontend
+- Unit testing on the frontend
