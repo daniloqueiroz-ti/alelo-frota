@@ -11,51 +11,51 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alelofrota.domain.dto.VehicleDTO;
 import br.com.alelofrota.domain.model.Vehicle;
-import br.com.alelofrota.domain.repository.AllVehicles;
+import br.com.alelofrota.domain.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
 
 	@Autowired
-	AllVehicles allVehicles;
+	VehicleRepository vehicleRepository;
 
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> all(Pageable pageable) {
-		Page<Vehicle> result = allVehicles.findAll(pageable);
-		return result.map(v -> new VehicleDTO(v));
+	public Page<VehicleDTO> findAll(Pageable pageable) {
+		Page<Vehicle> result = vehicleRepository.findAll(pageable);
+		return result.map(VehicleDTO::new);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> withPlateContains(String plate, Pageable pageable) {
-		Page<Vehicle> result = allVehicles.findByPlateContains(plate, pageable);
-		return result.map(v -> new VehicleDTO(v));
+	public Page<VehicleDTO> findByPlateContains(String plate, Pageable pageable) {
+		Page<Vehicle> result = vehicleRepository.findByPlateContains(plate, pageable);
+		return result.map(VehicleDTO::new);
 	}
 
 	@Transactional(readOnly = true)
 	public boolean existsVehicleWithPlate(String plate) {
-		return allVehicles.existsVehicleByPlate(plate);
+		return vehicleRepository.existsVehicleByPlate(plate);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<VehicleDTO> withStatus(boolean status, Pageable pageable) {
-		Page<Vehicle> result = allVehicles.findByStatus(status, pageable);
-		return result.map(v -> new VehicleDTO(v));
+	public Page<VehicleDTO> findByStatus(boolean status, Pageable pageable) {
+		Page<Vehicle> result = vehicleRepository.findByStatus(status, pageable);
+		return result.map(VehicleDTO::new);
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Vehicle> withId(Long id) {
-		return allVehicles.findById(id);
+	public Optional<Vehicle> findById(Long id) {
+		return vehicleRepository.findById(id);
 	}
 
-	public VehicleDTO saveVehicle(Vehicle v) {
-		return new VehicleDTO(allVehicles.save(v));
+	public VehicleDTO save(Vehicle v) {
+		return new VehicleDTO(vehicleRepository.save(v));
 	}
 
-	public void deleteVehicle(Vehicle v) {
-		allVehicles.delete(v);
+	public void delete(Vehicle v) {
+		vehicleRepository.delete(v);
 	}
 
-	public void saveAllVehicles(List<Vehicle> list) {
-		allVehicles.saveAll(list);
+	public void saveAll(List<Vehicle> list) {
+		vehicleRepository.saveAll(list);
 	}
 }

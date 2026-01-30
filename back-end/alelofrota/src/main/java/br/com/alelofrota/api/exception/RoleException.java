@@ -1,4 +1,4 @@
-package br.com.alelofrota.domain.exception;
+package br.com.alelofrota.api.exception;
 
 public class RoleException extends RuntimeException {
 
