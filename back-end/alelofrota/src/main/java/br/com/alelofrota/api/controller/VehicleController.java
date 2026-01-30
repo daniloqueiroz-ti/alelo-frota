@@ -1,6 +1,6 @@
 package br.com.alelofrota.api.controller;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +24,13 @@ import br.com.alelofrota.domain.exception.RoleException;
 import br.com.alelofrota.domain.model.Vehicle;
 import br.com.alelofrota.domain.service.VehicleService;
 import br.com.alelofrota.domain.utilities.Util;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/vehicle")
-@Api(value = "API REST Alelo Frota 2020")
+@Tag(name = "Vehicle", description = "API REST Alelo Frota 2020")
 public class VehicleController {
 
 	@Autowired
@@ -41,7 +41,8 @@ public class VehicleController {
 	// http://localhost:8080/vehicle?filter=true
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	@ApiOperation(value = "Return all vehicles in pages")
+	@Operation(summary = "Return all vehicles in pages",
+			description = "Returns vehicles filtered by plate or status (active/inactive/all)")
 	public ResponseEntity<Page<VehicleDTO>> find(@RequestParam(required = false) String filter, 
 			@RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size) {
@@ -64,7 +65,7 @@ public class VehicleController {
 	// http://localhost:8080/vehicle/id
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/{id}")
-	@ApiOperation(value = "Return vehicle by id")
+	@Operation(summary = "Return vehicle by id")
 	public ResponseEntity<VehicleDTO> findById(@PathVariable Long id) {
 		Vehicle vehicle = serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
 		return ResponseEntity.ok(new VehicleDTO(vehicle));
@@ -72,7 +73,7 @@ public class VehicleController {
 
 	// http://localhost:8080/vehicle
 	@PostMapping
-	@ApiOperation(value = "Save Vehicle")
+	@Operation(summary = "Save Vehicle")
 	public ResponseEntity<VehicleDTO> save(@Valid @RequestBody Vehicle vehicle) {
 		vehicle.addPlate(vehicle.getPlate());
 		if (serviceVehicle.existsVehicleWithPlate(vehicle.getPlate())) {
@@ -83,7 +84,7 @@ public class VehicleController {
 
 	// http://localhost:8080/vehicle/id
 	@PutMapping("/{id}")
-	@ApiOperation(value = "Update Vehicle")
+	@Operation(summary = "Update Vehicle")
 	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody Vehicle vehicle, @PathVariable Long id) {
 		vehicle.addPlate(vehicle.getPlate());
 		Vehicle vehicleAux = serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
@@ -95,7 +96,7 @@ public class VehicleController {
 
 	// http://localhost:8080/vehicle/id
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "Delete Vehicle")
+	@Operation(summary = "Delete Vehicle")
 	public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
 		serviceVehicle.withId(id).orElseThrow(() -> new RoleException("Vehicle not found!"));
 		serviceVehicle.deleteVehicle(new Vehicle(id));
